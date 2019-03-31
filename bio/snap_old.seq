@@ -1,0 +1,143 @@
+from genomeindex import *
+import sys
+import time
+type K = k20
+
+def update(counts: dict[int,int], pos: int, max_pos: int, max_count: int):
+    count = counts.get(pos, 0) + 1
+    counts[pos] = count
+    return (pos, count) if count > max_count else (max_pos, max_count)
+
+def process_p(read: seq, index: GenomeIndex[K]):
+    counts = dict[int,int]()
+    max_pos, max_count = 0, 0
+    step = K.len()
+    offset = 0
+
+    for kmer in read.kmers[K](step):
+        prefetch index[kmer], index[~kmer]
+        hits = index[kmer]
+        hits_rev = index[~kmer]
+
+        if len(hits) + len(hits_rev) <= 100:
+            for i in range(len(hits)):
+                pos = int(hits[i]) - offset
+                max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+            for i in range(len(hits_rev)):
+                pos = int(hits_rev[i]) - offset
+                max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        offset += step
+
+    print read, max_pos
+
+def process(read: seq, index: GenomeIndex[K]):
+    counts = dict[int,int]()
+    max_pos, max_count = 0, 0
+    step = K.len()
+    offset = 0
+
+    for kmer in read.kmers[K](step):
+        hits = index[kmer]
+        hits_rev = index[~kmer]
+
+        if len(hits) + len(hits_rev) <= 100:
+            for i in range(len(hits)):
+                pos = int(hits[i]) - offset
+                max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+            for i in range(len(hits_rev)):
+                pos = int(hits_rev[i]) - offset
+                max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        offset += step
+
+    print read, max_pos
+
+
+def processno_p(read: seq, index: GenomeIndex[K]):
+    counts = dict[int,int]()
+    max_pos, max_count = 0, 0
+    step = K.len()
+    offset = 0
+
+    for kmer in read.kmers[K](step):
+        prefetch index[kmer], index[~kmer]
+        hits = index[kmer]
+        hits_rev = index[~kmer]
+
+        for i in range(len(hits)):
+            pos = int(hits[i]) - offset
+            max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        for i in range(len(hits_rev)):
+            pos = int(hits_rev[i]) - offset
+            max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        offset += step
+
+    print read, max_pos
+
+
+def processno(read: seq, index: GenomeIndex[K]):
+    counts = dict[int,int]()
+    max_pos, max_count = 0, 0
+    step = K.len()
+    offset = 0
+
+    for kmer in read.kmers[K](step):
+        hits = index[kmer]
+        hits_rev = index[~kmer]
+
+        for i in range(len(hits)):
+            pos = int(hits[i]) - offset
+            max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        for i in range(len(hits_rev)):
+            pos = int(hits_rev[i]) - offset
+            max_pos, max_count = update(counts, pos, max_pos, max_count)
+
+        offset += step
+
+    print read, max_pos
+
+type FASTQ2(file: File):
+    def __init__(self: FASTQ2, path: str) -> FASTQ2:
+        sys.stderr.write("new fq\n")
+        return (open(path, "r"),)
+
+    def __iter__(self: FASTQ2):
+        cdef getline(ptr[ptr[byte]], n: ptr[int], file: ptr[byte]) -> int
+        line = 0
+        while True:
+            rd = getline(self.file.buf, self.file.sz, self.file.fp)
+            if rd != -1:
+                if self.file.buf[0][rd - 1] == byte(10):
+                    rd -= 1
+                if line % 4 == 1:
+                    yield seq(self.file.buf[0], rd)
+                line += 1
+            else:
+                break
+
+def fastq2(path: str):
+    return iter(FASTQ2(path))
+
+
+def main(args):
+    t = time.time()
+    index = GenomeIndex[K](args[0])
+    sys.stderr.write('index loading:' +  str((time.time()-t)/1000.0) + "\n")
+    match args[2]:
+        case '1p': fastq(args[1]) |> process_p(index)
+        case '1':  fastq(args[1]) |> process(index)
+        case '2p': fastq(args[1]) |> processno_p(index)
+        case '2':  fastq(args[1]) |> processno(index)
+
+        case 'x1p': fastq2(args[1]) |> process_p(index)
+        case 'x1':  fastq2(args[1]) |> process(index)
+        default: print 'unknown mode'
+
+if len(sys.argv) > 0:
+    main(sys.argv[1:])

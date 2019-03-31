@@ -1,0 +1,34 @@
+# 786
+
+import sys
+
+t1 = 0
+def process(k):
+   global t1
+   t1 += len(k)
+   return k
+
+t2 = 0
+def count(k):
+   global t2
+   t2 += 1
+   return k
+
+t3 = 0
+def sym(k):
+   global t3
+   def is_sym(s) -> bool: 
+      match s:
+         case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N': 
+            return is_sym(s[1:-1])
+         case s'': return True
+         default:  return False
+   t3 += 1 if is_sym(k) else 0
+
+(seqs(sys.argv[1])
+ |> split(16, 1)
+ |> process
+ |> count
+ |> sym)
+print t1, t2, t3
+

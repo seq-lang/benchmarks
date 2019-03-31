@@ -1,0 +1,48 @@
+from genomeindex import *
+import sys
+type K = k20
+
+good = 0
+bad = 0
+
+def process(kmer: K, index: GenomeIndex[K]):
+    global good, bad
+    
+    hits = index[kmer]
+    hits_rc = index[~kmer]
+
+    if len(hits) > 0 or len(hits_rc) > 0:
+        good += 1
+    else:
+        bad += 1
+
+def process_p(kmer: K, index: GenomeIndex[K]):
+    global good, bad
+    
+    prefetch index[kmer], index[~kmer]
+    hits = index[kmer]
+    hits_rc = index[~kmer]
+
+    if len(hits) > 0 or len(hits_rc) > 0:
+        good += 1
+    else:
+        bad += 1
+
+def ix(r):
+    yield seq(r)
+
+def main(args):
+    index = GenomeIndex[K](args[0])
+    step = 10
+    match args[2]:
+        case 'y':
+            fastq(args[1]) |> kmers[K](step) |> process_p(index)
+        case 'n':
+            fastq(args[1]) |> kmers[K](step) |> process(index)
+        default:
+            print 'wrong mode'
+            sys.exit(1)
+    print good, bad
+
+if len(sys.argv) > 0:
+    main(sys.argv[1:])

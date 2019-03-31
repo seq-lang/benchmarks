@@ -1,0 +1,116 @@
+=== === === === === === === rc === === === === === === ===
+=> Running C++/g++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.cc data/HG00123_shuf.txt > out/rc.cc
+[time: 135.69 s | mem: 3236 kb]
+[time: 142.54 s | mem: 3128 kb]
+[time: 135.01 s | mem: 3132 kb]
+[time: 135.05 s | mem: 3160 kb]
+[time: 133.68 s | mem: 3208 kb] 
+=> Running C++/clang++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.cl data/HG00123_shuf.txt > out/rc.cl
+[time: 134.46 s | mem: 3212 kb]
+[time: 138.14 s | mem: 3200 kb]
+[time: 133.80 s | mem: 3228 kb]
+[time: 137.21 s | mem: 3200 kb]
+[time: 135.22 s | mem: 3212 kb]
+=> Running Seq with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.seq data/HG00123_shuf.txt > out/rc.seq
+[time: 136.04 s | mem: 6348 kb]
+[time: 136.72 s | mem: 6268 kb]
+[time: 136.14 s | mem: 6232 kb]
+[time: 136.10 s | mem: 6356 kb]
+[time: 136.10 s | mem: 6176 kb]
+=> Running Seq.ID with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.id.seq data/HG00123_shuf.txt > out/rc.id.seq
+[time: 30.44 s | mem: 6252 kb]
+[time: 35.97 s | mem: 6328 kb]
+[time: 29.09 s | mem: 6328 kb]
+[time: 27.72 s | mem: 6236 kb]
+[time: 27.56 s | mem: 6248 kb]
+=> Running Julia with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 rc.jl data/HG00123_shuf.txt > out/rc.jl
+[time: 771.43 s | mem: 190088 kb]
+[time: 760.64 s | mem: 191204 kb]
+[time: 761.93 s | mem: 191972 kb]
+=> Running Python with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python rc.py data/HG00123_shuf.txt > out/rc.py
+[time: 2402.47 s | mem: 8360 kb]
+=> Running Nuitka with data/HG00123_shuf.txt ...
+
+=== === === === === === === cpg === === === === === === ===
+=> Running C++/g++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/cpg.cc data/HG00123_shuf.txt > out/cpg.cc
+[time: 45.40 s | mem: 3312 kb]
+[time: 44.85 s | mem: 3292 kb]
+[time: 44.86 s | mem: 3272 kb]
+[time: 44.06 s | mem: 3180 kb]
+[time: 44.88 s | mem: 3236 kb] 
+=> Running C++/clang++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/cpg.cl data/HG00123_shuf.txt > out/cpg.cl
+[time: 55.41 s | mem: 3232 kb]
+[time: 55.35 s | mem: 3184 kb]
+[time: 55.94 s | mem: 3184 kb]
+[time: 56.37 s | mem: 3200 kb]
+[time: 55.60 s | mem: 3200 kb]
+=> Running Seq with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/cpg.seq data/HG00123_shuf.txt > out/cpg.seq
+[time: 51.26 s | mem: 5304 kb]
+[time: 51.39 s | mem: 5188 kb]
+[time: 51.29 s | mem: 31852 kb]
+[time: 51.30 s | mem: 5188 kb]
+[time: 51.27 s | mem: 5148 kb]
+=> Running Seq.ID with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/cpg.id.seq data/HG00123_shuf.txt > out/cpg.id.seq
+[time: 58.17 s | mem: 5280 kb]
+[time: 58.19 s | mem: 5324 kb]
+[time: 58.08 s | mem: 5200 kb]
+[time: 58.38 s | mem: 5196 kb]
+[time: 58.24 s | mem: 5208 kb]
+=> Running Julia with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 cpg.jl data/HG00123_shuf.txt > out/cpg.jl
+[time: 948.18 s | mem: 189804 kb]
+[time: 947.74 s | mem: 193836 kb]
+[time: 947.32 s | mem: 190944 kb]
+=> Running Python with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python cpg.py data/HG00123_shuf.txt > out/cpg.py
+[time: 3579.65 s | mem: 7764 kb]
+=> Running Nuitka with data/HG00123_shuf.txt ...
+
+=== === === === === === === 16mer === === === === === === ===
+=> Running C++/g++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/16mer.cc data/HG00123_shuf.txt > out/16mer.cc
+[time: 299.33 s | mem: 3232 kb]
+[time: 297.25 s | mem: 3156 kb]
+[time: 296.52 s | mem: 3184 kb]
+[time: 305.87 s | mem: 3288 kb]
+[time: 313.64 s | mem: 3128 kb]
+=> Running C++/clang++ with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/16mer.cl data/HG00123_shuf.txt > out/16mer.cl
+[time: 304.42 s | mem: 3212 kb]
+[time: 315.90 s | mem: 3184 kb]
+[time: 303.13 s | mem: 3212 kb]
+[time: 300.80 s | mem: 3228 kb]
+[time: 298.32 s | mem: 3228 kb]
+=> Running Seq with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/16mer.seq data/HG00123_shuf.txt > out/16mer.seq
+[time: 152.64 s | mem: 17476 kb]
+[time: 152.98 s | mem: 5200 kb]
+[time: 152.67 s | mem: 5188 kb]
+[time: 152.72 s | mem: 5108 kb]
+[time: 152.61 s | mem: 5192 kb]
+=> Running Seq.ID with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/16mer.id.seq data/HG00123_shuf.txt > out/16mer.id.seq
+[time: 87.03 s | mem: 5164 kb]
+[time: 87.15 s | mem: 5308 kb]
+[time: 87.09 s | mem: 5216 kb]
+[time: 86.78 s | mem: 5156 kb]
+[time: 86.87 s | mem: 5188 kb]
+=> Running Julia with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 16mer.jl data/HG00123_shuf.txt > out/16mer.jl
+[time: 1032.22 s | mem: 191160 kb]
+[time: 1026.97 s | mem: 189076 kb]
+[time: 1033.37 s | mem: 194780 kb]
+=> Running Python with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python 16mer.py data/HG00123_shuf.txt > out/16mer.py
+[time: 15346.60 s | mem: 7464 kb]
+=> Running Nuitka with data/HG00123_shuf.txt ...

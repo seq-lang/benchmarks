@@ -1,0 +1,114 @@
+# Implementation of SNAP aligner's hash table
+# https://github.com/amplab/snap/blob/master/SNAPLib/HashTable.{cpp,h}
+
+# Need the following hooks linked to convert C++ SNAPHashTable to Seq object:
+# snap_hashtable_ptr(ptr[byte]) -> ptr[tuple[K,V]]  --  extract table pointer
+# snap_hashtable_len(ptr[byte]) -> int                --  extract table length
+# snap_hashtable_invalid_val(ptr[byte]) -> V         --  extract "invalid" value
+
+QUADRATIC_CHAINING_DEPTH = 5
+
+class SNAPHashTable[K,V]:
+    table: array[tuple[V,K]]  # this order is consistent with SNAP
+    invalid_val: V
+
+    def _hash(k):
+        key = hash(k)
+        key ^= int(u64(key) >> u64(33))
+        key *= 0xff51afd7ed558ccd
+        key ^= int(u64(key) >> u64(33))
+        key *= 0xc4ceb9fe1a85ec53
+        key ^= int(u64(key) >> u64(33))
+        return key
+
+    def __init__(self: SNAPHashTable[K,V], size: int, invalid_val: V):
+        self.table = array[tuple[V,K]](size)
+        self.invalid_val = invalid_val
+
+        for i in range(size):
+            self.table[i] = (invalid_val, K())
+
+    def __init__(self: SNAPHashTable[K,V], p: ptr[byte]):
+        cdef snap_hashtable_ptr(ptr[byte]) -> ptr[tuple[V,K]]
+        cdef snap_hashtable_len(ptr[byte]) -> int
+        cdef snap_hashtable_invalid_val(ptr[byte]) -> V
+        self.table = array[tuple[V,K]](snap_hashtable_ptr(p), snap_hashtable_len(p))
+        self.invalid_val = snap_hashtable_invalid_val(p)
+
+    def _get_index(self: SNAPHashTable[K,V], where: int):
+        return int(u64(where) % u64(len(self.table)))
+
+    def _get_entry_index_for_key(self: SNAPHashTable[K,V], k: K):
+        table = self.table
+        table_size = table.len
+        table_index = self._get_index(SNAPHashTable[K,V]._hash(k))
+        wrapped = False
+        n_probes = 1
+        invalid_val = self.invalid_val
+
+        while table[table_index][1] != k and table[table_index][0] != invalid_val:
+            table_index += (n_probes ** 2) if n_probes < QUADRATIC_CHAINING_DEPTH else 1
+            n_probes += 1
+
+            if table_index >=table_size:
+                if wrapped:
+                    return -1
+
+                wrapped = True
+                table_index %= table_size
+
+        return table_index
+
+    def get_value_ptr_for_key(self: SNAPHashTable[K,V], k: K):
+        table = self.table
+        table_size = table.len
+        table_index = self._get_index(SNAPHashTable[K,V]._hash(k))
+        invalid_val = self.invalid_val
+        entry = table[table_index]
+
+        if entry[1] == k and entry[0] != invalid_val:
+            return ptr[V](table.ptr + table_index)
+        else:
+            n_probes = 0
+            while True:
+                n_probes += 1
+
+                if n_probes > table_size + QUADRATIC_CHAINING_DEPTH:
+                    return ptr[V]()
+
+                diff = (n_probes**2) if n_probes < QUADRATIC_CHAINING_DEPTH else 1
+                table_index = (table_index + diff) % table_size
+
+                entry = table[table_index]
+                if not (entry[1] != k and entry[0] != invalid_val):
+                    break
+
+            return ptr[V](table.ptr + table_index)
+
+    def __prefetch__(self: SNAPHashTable[K,V], k: K):
+        table = self.table
+        table_index = self._get_index(SNAPHashTable[K,V]._hash(k))
+        (self.table.ptr + table_index).__prefetch_r3__()
+        #(ptr[byte](self.table.ptr + table_index) + 7).__prefetch_r3__()
+
+    def lookup_slow(self: SNAPHashTable[K,V], k: K):
+        entry = self._get_entry_index_for_key(k)
+        return self.table[entry][0] if entry >= 0 else self.invalid_val
+
+    def __getitem__(self: SNAPHashTable[K,V], k: K):
+        p = self.get_value_ptr_for_key(k)
+        return p[0] if p else self.invalid_val
+
+    def __setitem__(self: SNAPHashTable[K,V], k: K, v: V):
+        entry = self._get_entry_index_for_key(k)
+        if entry >= 0:
+            self.table[entry] = (v, k)
+
+def _test():
+    h = SNAPHashTable[i32,i32](100, i32(-1))
+    for i in range(10):
+        h[i32(42 + i*100)] = i32(i)
+
+    for i in range(100):
+        print int(h[i32(42 + i*100)])
+

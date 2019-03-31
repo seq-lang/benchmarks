@@ -1,0 +1,35 @@
+SGA=sga/src
+INC =  -I$(SGA)/Scaffold \
+       -I$(SGA)/GraphDiff \
+       -I$(SGA)/StringGraph \
+       -I$(SGA)/Concurrency \
+       -I$(SGA)/Algorithm \
+       -I$(SGA)/SuffixTools \
+       -I$(SGA)/Bigraph \
+       -I$(SGA)/Util \
+       -I$(SGA)/SQG \
+       -I$(SGA)/Thirdparty
+LIB =  -L$(SGA)/Scaffold \
+	     -L$(SGA)/GraphDiff \
+	     -L$(SGA)/StringGraph \
+	     -L$(SGA)/Concurrency \
+	     -L$(SGA)/Algorithm \
+	     -L$(SGA)/SuffixTools \
+	     -L$(SGA)/Bigraph \
+	     -L$(SGA)/Util \
+	     -L$(SGA)/SQG \
+	     -L$(SGA)/Thirdparty 
+LINK = -lscaffold -lgraphdiff -lstringgraph \
+       -lconcurrency -lalgorithm -lsuffixtools \
+       -lbigraph -lutil -lsqg -lthirdparty -lz
+
+CXX = g++
+CPPFLAGS = -std=c++11 -march=native -O3 -flto
+LDFLAGS  = -pthread   -march=native -O3 -flto
+
+all: 
+	$(CXX) $(CPPFLAGS) -c sga.cc -o build/sga.cc.o
+	$(CXX) $(LDFLAGS) build/sga.cc.o $(LIB) $(LINK) -o build/sga.cc
+	$(CXX) $(CPPFLAGS) -c sga/libsga.cc -o build/libsga.cc.o
+	$(CXX) $(LDFLAGS) -shared build/libsga.cc.o $(LIB) $(LINK) \
+		-o build/libsga.so

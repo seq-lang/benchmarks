@@ -1,0 +1,30 @@
+# Old CpG experiment (Seq)
+# - Counts the number of non-overlapping [CG]+ regions 
+
+import sys
+
+def is_cpg(s):
+   return s == byte(67) or s == byte(71)
+   #s == 'C' or s == 'G' 
+
+def cpg_count(s):
+   i = 0
+   total = 0
+   while i < len(s):
+      if is_cpg(s.ptr[i]):
+         j = i + 1
+         while j < len(s) and is_cpg(s.ptr[j]):
+            j += 1
+         total += 1
+         i = j + 1
+      else: i += 1
+   return total
+
+def f(x):
+   f = open(x, 'r')
+   cnt = 0
+   for l in f._iter():
+      cnt += cpg_count(l)
+   print cnt
+
+f(sys.argv[1])

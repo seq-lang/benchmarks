@@ -1,0 +1,120 @@
+=== === === === === === === fasta === === === === === === ===
+=> Running C++/g++ with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.cc 25000000 > out/fasta.cc
+[time: 5.69 s | mem: 4220 kb]
+[time: 5.69 s | mem: 4188 kb]
+[time: 5.69 s | mem: 4288 kb]
+[time: 5.68 s | mem: 4184 kb]
+[time: 5.69 s | mem: 4268 kb]
+=> Running C++/clang++ with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.cl 25000000 > out/fasta.cl
+[time: 5.63 s | mem: 4228 kb]
+[time: 5.63 s | mem: 4100 kb]
+[time: 5.63 s | mem: 4136 kb]
+[time: 5.63 s | mem: 4104 kb]
+[time: 5.64 s | mem: 4196 kb]
+=> Running Seq with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.seq 25000000 > out/fasta.seq
+[time: 10.82 s | mem: 210936 kb]
+[time: 10.67 s | mem: 203660 kb]
+[time: 10.67 s | mem: 201672 kb]
+[time: 10.62 s | mem: 203632 kb]
+[time: 10.67 s | mem: 203684 kb]
+=> Running Julia with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 fasta.jl 25000000 > out/fasta.jl
+[time: 7.09 s | mem: 173264 kb]
+[time: 7.08 s | mem: 174704 kb]
+[time: 7.10 s | mem: 177952 kb]
+[time: 7.10 s | mem: 174696 kb]
+[time: 7.06 s | mem: 176264 kb] 
+=> Running Python with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python fasta.py 25000000 > out/fasta.py
+[time: 110.80 s | mem: 4969116 kb]
+[time: 111.25 s | mem: 4968284 kb]
+[time: 110.88 s | mem: 4969440 kb] 
+=> Running Nuitka with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.nuitka/fasta.dist/fasta 25000000 > out/fasta.nuitka
+[time: 90.98 s | mem: 4969812 kb]
+[time: 93.98 s | mem: 4970676 kb]
+[time: 92.84 s | mem: 4970924 kb]
+ 
+=== === === === === === === revcomp === === === === === === ===
+=> Running C++/g++ with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.cc < data/fasta25mil.txt > out/revcomp.cc
+[time: 9.54 s | mem: 233084 kb]
+[time: 9.51 s | mem: 233212 kb]
+[time: 9.51 s | mem: 233164 kb]
+[time: 9.66 s | mem: 232984 kb]
+[time: 9.51 s | mem: 232992 kb] 
+=> Running C++/clang++ with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.cl < data/fasta25mil.txt > out/revcomp.cl
+[time: 9.50 s | mem: 232784 kb]
+[time: 9.52 s | mem: 232872 kb]
+[time: 9.51 s | mem: 233128 kb]
+[time: 9.49 s | mem: 232916 kb]
+[time: 9.52 s | mem: 232760 kb] 
+=> Running Seq with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.seq < data/fasta25mil.txt > out/revcomp.seq
+[time: 1.27 s | mem: 433128 kb]
+[time: 1.30 s | mem: 430664 kb]
+[time: 1.29 s | mem: 430420 kb]
+[time: 1.27 s | mem: 431556 kb]
+[time: 1.26 s | mem: 430308 kb] 
+=> Running Julia with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 revcomp.jl < data/fasta25mil.txt > out/revcomp.jl
+[time: 9.16 s | mem: 621004 kb]
+[time: 9.10 s | mem: 620020 kb]
+[time: 9.12 s | mem: 619328 kb]
+[time: 9.06 s | mem: 643476 kb]
+[time: 9.29 s | mem: 616624 kb] 
+=> Running Python with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python revcomp.py < data/fasta25mil.txt > out/revcomp.py
+[time: 99.16 s | mem: 310296 kb]
+[time: 96.10 s | mem: 310116 kb]
+[time: 97.37 s | mem: 310044 kb] 
+=> Running Nuitka with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.nuitka/revcomp.dist/revcomp < data/fasta25mil.txt > out/revcomp.nuitka
+[time: 54.91 s | mem: 311252 kb]
+[time: 54.18 s | mem: 311292 kb]
+[time: 53.69 s | mem: 311304 kb]
+ 
+=== === === === === === === knucleotide === === === === === === ===
+=> Running C++/g++ with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.cc < data/fasta25mil.txt > out/knucleotide.cc
+[time: 54.87 s | mem: 141840 kb]
+[time: 54.44 s | mem: 141644 kb]
+[time: 54.44 s | mem: 141456 kb]
+[time: 53.77 s | mem: 141376 kb]
+[time: 53.78 s | mem: 142012 kb]
+=> Running C++/clang++ with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.cl < data/fasta25mil.txt > out/knucleotide.cl
+[time: 53.86 s | mem: 141372 kb]
+[time: 54.72 s | mem: 141420 kb]
+[time: 54.61 s | mem: 141472 kb]
+[time: 54.51 s | mem: 141456 kb]
+[time: 55.19 s | mem: 141436 kb]
+=> Running Seq with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.seq < data/fasta25mil.txt > out/knucleotide.seq
+[time: 19.69 s | mem: 396860 kb]
+[time: 19.54 s | mem: 399904 kb]
+[time: 19.62 s | mem: 403688 kb]
+[time: 19.81 s | mem: 396064 kb]
+[time: 19.86 s | mem: 398684 kb]
+=> Running Julia with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 knucleotide.jl < data/fasta25mil.txt > out/knucleotide.jl
+[time: 197.22 s | mem: 1415440 kb]
+[time: 194.64 s | mem: 1412972 kb]
+[time: 199.07 s | mem: 1414556 kb]
+[time: 194.66 s | mem: 1411456 kb]
+[time: 194.32 s | mem: 1413576 kb]
+=> Running Python with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python knucleotide.py < data/fasta25mil.txt > out/knucleotide.py
+[time: 255.91 s | mem: 4364032 kb]
+[time: 256.01 s | mem: 4364128 kb]
+[time: 255.59 s | mem: 4363972 kb]
+=> Running Nuitka with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.nuitka/knucleotide.dist/knucleotide < data/fasta25mil.txt > out/knucleotide.nuitka
+[time: 171.30 s | mem: 4365184 kb]
+[time: 177.65 s | mem: 4365080 kb]
+[time: 173.23 s | mem: 4365508 kb]
+ 

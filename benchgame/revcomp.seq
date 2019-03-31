@@ -1,0 +1,17 @@
+import sys
+
+def process(l):
+   w = 60
+   rc = revcomp_inplace(seq(''.join(l)))
+   for i in range(0, len(rc), w):
+      print rc[i:i + w]
+
+l = list[str]()
+for line in sys.stdin:
+   if line[0] == '>':
+      process(l)
+      l.clear()
+      print line
+   else:
+      l.append(line)
+process(l)
