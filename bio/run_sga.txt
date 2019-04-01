@@ -6,6 +6,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 28.471 [time: 348.90 s | mem: 30062288 kb]
 28.342 [time: 348.64 s | mem: 30062316 kb]
 28.303 [time: 365.47 s | mem: 30062136 kb] 
+=> Running C++/clang++ with HG00123_5mil.fq ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/sga.cl  data/wgsim-sga.bwt data/HG00123_5mil.fq    > out/HG00123_5mil.fq-sga.cl
+30.507 [time: 481.23 s | mem: 30062260 kb]
+30.392 [time: 481.94 s | mem: 30062276 kb]
+30.566 [time: 480.38 s | mem: 30062260 kb]
+30.373 [time: 480.66 s | mem: 30062424 kb]
+30.396 [time: 480.61 s | mem: 30062356 kb]
 => Running Seq with HG00123_5mil.fq ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]'       taskset -c 20       build/sga.seq data/wgsim-sga.bwt data/HG00123_5mil.fq n > out/HG00123_5mil.fq-sga_n.seq
 28.483 [time: 355.57 s | mem: 30063868 kb]
@@ -29,6 +36,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 28.281 [time: 191.37 s | mem: 30062352 kb]
 28.328 [time: 191.44 s | mem: 30062284 kb]
 28.322 [time: 191.50 s | mem: 30062136 kb]
+=> Running C++/clang++ with ERR194146_5mil.fq ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/sga.cl  data/wgsim-sga.bwt data/ERR194146_5mil.fq    > out/ERR194146_5mil.fq-sga.cl
+30.581 [time: 253.44 s | mem: 30062256 kb]
+30.387 [time: 253.57 s | mem: 30062236 kb]
+30.508 [time: 253.69 s | mem: 30062356 kb]
+30.381 [time: 270.22 s | mem: 30062340 kb]
+30.72 [time: 254.69 s | mem: 30062352 kb]
 => Running Seq with ERR194146_5mil.fq ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]'       taskset -c 20       build/sga.seq data/wgsim-sga.bwt data/ERR194146_5mil.fq n > out/ERR194146_5mil.fq-sga_n.seq
 28.462 [time: 202.63 s | mem: 30063876 kb]
@@ -52,6 +66,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 28.757 [time: 830.76 s | mem: 30062344 kb]
 28.501 [time: 829.96 s | mem: 30062332 kb]
 28.299 [time: 828.90 s | mem: 30062232 kb]
+=> Running C++/clang++ with sga-ariya.fq ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/sga.cl  data/wgsim-sga.bwt data/sga-ariya.fq    > out/sga-ariya.fq-sga.cl
+30.967 [time: 1168.72 s | mem: 30062220 kb]
+30.374 [time: 1167.45 s | mem: 30062280 kb]
+30.396 [time: 1167.80 s | mem: 30062420 kb]
+30.425 [time: 1163.75 s | mem: 30062424 kb]
+33.297
 => Running Seq with sga-ariya.fq ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]'       taskset -c 20       build/sga.seq data/wgsim-sga.bwt data/sga-ariya.fq n > out/sga-ariya.fq-sga_n.seq
 28.388 [time: 846.42 s | mem: 30063804 kb]

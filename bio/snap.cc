@@ -7,11 +7,20 @@
 #include <cstdlib>
 #include <cstdint>
 #include <cassert>
+#include <sys/time.h>
 
 using namespace std;
 
 extern "C" void *snap_index_from_dir(char *dir);
 extern "C" void snap_index_lookup(void *idx, char *bases, int64_t *nHits, const unsigned **hits, int64_t *nRCHits, const unsigned **rcHits);
+
+int seq_time()
+{
+	timeval ts;
+	gettimeofday(&ts, nullptr);
+	auto time_ms = (int)((ts.tv_sec * 1000000 + ts.tv_usec) / 1000);
+	return time_ms;
+}
 
 static bool hasN(char *kmer, unsigned len)
 {
@@ -29,7 +38,10 @@ int main(int argc, char *argv[])
 {
 	assert(argc == 3);
 
+	int t = seq_time();
 	void *idx = snap_index_from_dir(argv[1]);
+	cerr<<"index loading: " << (seq_time()-t)/1000.0 << endl;
+
 	const unsigned k = 20;
 	const unsigned step = 10;
 
@@ -49,7 +61,6 @@ int main(int argc, char *argv[])
 		if (line % 4 != 1)
 			continue;
 
-		unordered_map<unsigned,unsigned> counts;
 		unsigned max_pos = 0, max_count = 0;
 		char *buf = (char *)read.c_str();
 		unsigned len = read.size();

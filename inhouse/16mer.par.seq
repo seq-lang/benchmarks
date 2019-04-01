@@ -1,0 +1,70 @@
+# 786
+
+import sys
+
+cdef T as omp_get_thread_num() -> int
+cdef NT as omp_get_num_threads() -> int
+
+# t1 = [0] * NT()
+# #@atomic
+# def process(k):
+#    global t1
+#    t1[T()] += len(k)
+#    return k
+
+# t2 = [0] * NT()
+# #@atomic
+# def count(k):
+#    global t2
+#    t2[T()] += 1
+#    return k
+
+# t3 = 0 # [0] * NT()
+# #@atomic
+# def sym(k):
+#    global t3
+#    def is_sym(s) -> bool: 
+#       match s:
+#          case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N': 
+#             return is_sym(s[1:-1])
+#          case s'': return True
+#          default:  return False
+#    t3 += 1 if is_sym(k) else 0
+
+# print NT()
+# (seqs(sys.argv[1])
+#  ||> split(16, 1)
+#  #|> process
+#  #|> count
+#  |> sym)
+# print t3 #sum(t1), sum(t2), sum(t3)
+
+
+
+import sys
+
+t3 = 0
+
+#@atomic
+# def sym(k):
+#    global t3
+#    def is_sym(s) -> bool:
+#       match s:
+#          case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N':
+#             return is_sym(s[1:-1])
+#          case s'': return True
+#          default:  return False
+#    if is_sym(k):
+#       t3 += 1
+
+# (seqs(sys.argv[1]) |> split(16, 1) |> sym)
+# print t3
+
+
+def calc(n):
+   v = 0
+   for i in range(n, n + 10000000000):
+      v ^= i*i
+   print v
+
+range(4) |> iter |> calc

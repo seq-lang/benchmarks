@@ -1,0 +1,20 @@
+
+=== === === === === === === sga === === === === === === ===
+-rw-r--r-- 1 inumanag inumanag 16G Mar 31 14:07 data/HG00123_shuf.fq
+==> Compiling...
+=> Compiling sga.cc...
+g++ -std=c++11 -march=native -O3 -flto -c sga.cc -o build/sga.cc.o
+g++ -pthread   -march=native -O3 -flto build/sga.cc.o -Lsga/src/Scaffold -Lsga/src/GraphDiff -Lsga/src/StringGraph -Lsga/src/Concurrency -Lsga/src/Algorithm -Lsga/src/SuffixTools -Lsga/src/Bigraph -Lsga/src/Util -Lsga/src/SQG -Lsga/src/Thirdparty  -lscaffold -lgraphdiff -lstringgraph -lconcurrency -lalgorithm -lsuffixtools -lbigraph -lutil -lsqg -lthirdparty -lz -o build/sga.cc
+g++ -std=c++11 -march=native -O3 -flto -c sga/libsga.cc -o build/libsga.cc.o
+g++ -pthread   -march=native -O3 -flto -shared build/libsga.cc.o -Lsga/src/Scaffold -Lsga/src/GraphDiff -Lsga/src/StringGraph -Lsga/src/Concurrency -Lsga/src/Algorithm -Lsga/src/SuffixTools -Lsga/src/Bigraph -Lsga/src/Util -Lsga/src/SQG -Lsga/src/Thirdparty  -lscaffold -lgraphdiff -lstringgraph -lconcurrency -lalgorithm -lsuffixtools -lbigraph -lutil -lsqg -lthirdparty -lz \
+	-o build/libsga.so
+clang++ -std=c++11 -march=native -O3 -flto -c sga.cc -o build/sga.cl.o
+clang++ -pthread   -march=native -O3 -flto build/sga.cl.o -Lsga/src/Scaffold -Lsga/src/GraphDiff -Lsga/src/StringGraph -Lsga/src/Concurrency -Lsga/src/Algorithm -Lsga/src/SuffixTools -Lsga/src/Bigraph -Lsga/src/Util -Lsga/src/SQG -Lsga/src/Thirdparty  -lscaffold -lgraphdiff -lstringgraph -lconcurrency -lalgorithm -lsuffixtools -lbigraph -lutil -lsqg -lthirdparty -lz -o build/sga.cl
+/usr/bin/ld: /scratch2/ibrahim/seq/build/miniconda/bin/../lib/LLVMgold.so: error loading plugin: /scratch2/ibrahim/seq/build/miniconda/bin/../lib/LLVMgold.so: cannot open shared object file: No such file or directory
+clang-6.0: error: linker command failed with exit code 1 (use -v to see invocation)
+Makefile.sga:38: recipe for target 'clang' failed
+make: *** [clang] Error 1
+[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[31m[43;1;30m Warning (/scratch2/ibrahim/seq/benchmarks/bio/sga.seq:48): shadowing filter[0m 
+==> Running...
+=> Running C++/g++ with HG00123_shuf.fq ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/sga.cc  data/wgsim-sga.bwt data/HG00123_shuf.fq    > out/HG00123_shuf.fq-sga.cc

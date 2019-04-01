@@ -24,8 +24,8 @@ LINK = -lscaffold -lgraphdiff -lstringgraph \
        -lbigraph -lutil -lsqg -lthirdparty -lz
 
 CXX = g++
-CPPFLAGS = -std=c++11 -march=native -O3 -flto
-LDFLAGS  = -pthread   -march=native -O3 -flto
+CPPFLAGS = -std=c++11 -march=native -O3 
+LDFLAGS  = -pthread   -march=native -O3 
 
 all: 
 	$(CXX) $(CPPFLAGS) -c sga.cc -o build/sga.cc.o
@@ -33,3 +33,8 @@ all:
 	$(CXX) $(CPPFLAGS) -c sga/libsga.cc -o build/libsga.cc.o
 	$(CXX) $(LDFLAGS) -shared build/libsga.cc.o $(LIB) $(LINK) \
 		-o build/libsga.so
+
+clang:
+	clang++ $(CPPFLAGS) -c sga.cc -o build/sga.cl.o
+	clang++ $(LDFLAGS) build/sga.cl.o $(LIB) $(LINK) -o build/sga.cl
+

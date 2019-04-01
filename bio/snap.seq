@@ -1,5 +1,5 @@
 from genomeindex import *
-import sys
+import sys, time
 type K = k20
 
 good = 0
@@ -32,7 +32,10 @@ def ix(r):
     yield seq(r)
 
 def main(args):
+    t=time.time()
     index = GenomeIndex[K](args[0])
+    sys.stderr.write('index loading: ' +  str((time.time()-t)/1000.0) + "\n")
+
     step = 10
     match args[2]:
         case 'y':

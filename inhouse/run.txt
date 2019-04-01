@@ -35,7 +35,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 => Running Python with data/HG00123_shuf.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python rc.py data/HG00123_shuf.txt > out/rc.py
 [time: 2402.47 s | mem: 8360 kb]
+[time: 2423.71 s | mem: 8328 kb]
+[time: 2425.74 s | mem: 8364 kb]
 => Running Nuitka with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.nuitka/rc.dist/rc data/HG00123_shuf.txt > out/rc.nuitka
+[time: 1861.32 s | mem: 9428 kb]
+[time: 1843.29 s | mem: 9388 kb]
+[time: 1957.07 s | mem: 9172 kb]
 
 === === === === === === === cpg === === === === === === ===
 => Running C++/g++ with data/HG00123_shuf.txt ...
@@ -74,7 +80,12 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 => Running Python with data/HG00123_shuf.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python cpg.py data/HG00123_shuf.txt > out/cpg.py
 [time: 3579.65 s | mem: 7764 kb]
+[time: 3573.15 s | mem: 7480 kb]
+[time: 3620.15 s | mem: 7348 kb]
 => Running Nuitka with data/HG00123_shuf.txt ...
+[time: 1558.59 s | mem: 8204 kb]
+[time: 1619.56 s | mem: 8476 kb]
+[time: 1610.97 s | mem: 8208 kb]
 
 === === === === === === === 16mer === === === === === === ===
 => Running C++/g++ with data/HG00123_shuf.txt ...
@@ -114,3 +125,6 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python 16mer.py data/HG00123_shuf.txt > out/16mer.py
 [time: 15346.60 s | mem: 7464 kb]
 => Running Nuitka with data/HG00123_shuf.txt ...
+[time: 5952.58 s | mem: 8220 kb]
+[time: 6281.27 s | mem: 8300 kb]
+[time: 5892.99 s | mem: 8584 kb]

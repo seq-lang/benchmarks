@@ -8,7 +8,7 @@ import sys
 
 total = 0
 def rc(s):
-   s = revcomp_inplace(s)
+   s = ~s
    print s
    global total
    total += len(s)

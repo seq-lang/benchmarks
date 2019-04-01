@@ -2,7 +2,7 @@ import sys
 
 def process(l):
    w = 60
-   rc = revcomp_inplace(seq(''.join(l)))
+   rc = seq(''.join(l)).revcomp()
    for i in range(0, len(rc), w):
       print rc[i:i + w]
 

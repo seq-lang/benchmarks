@@ -40,23 +40,23 @@ run () {
 	#hf 5 "build/$S.cl $2 > out/$S.cl"
 
 	echo "=> Running Seq with $2 ..."
-	hf 5 "build/$S.seq $2 > out/$S.seq"
+	#hf 5 "build/$S.seq $2 > out/$S.seq"
 
 	if [ -f "$S.id.seq" ]; then 
 		echo "=> Running Seq.ID with $2 ..."
-		hf 5 "build/$S.id.seq $2 > out/$S.id.seq"
+		#hf 5 "build/$S.id.seq $2 > out/$S.id.seq"
 	fi
 
 	echo "=> Running Julia with $2 ..."
 	#hf 3 "julia --check-bounds=no -O3 $S.jl $2 > out/$S.jl"
 
-	echo "=> Running Python with $2 ..."
-	#hf 2 "python $S.py $2 > out/$S.py"
-
 	echo "=> Running Nuitka with $2 ..."
-	#hf 2 "build/$S.nuitka/$S.dist/$S $2 > out/$S.nuitka"
+	hf 3 "build/$S.nuitka/$S.dist/$S $2 > out/$S.nuitka"
+
+	echo "=> Running Python with $2 ..."
+	hf 2 "python $S.py $2 > out/$S.py"
 }
 
-#run "rc" "data/HG00123_shuf.txt"
+run "rc" "data/HG00123_shuf.txt"
 run "cpg" "data/HG00123_shuf.txt"
-#run "16mer" "data/HG00123_shuf.txt"
+run "16mer" "data/HG00123_shuf.txt"
