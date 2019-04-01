@@ -72,7 +72,7 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 30.374 [time: 1167.45 s | mem: 30062280 kb]
 30.396 [time: 1167.80 s | mem: 30062420 kb]
 30.425 [time: 1163.75 s | mem: 30062424 kb]
-33.297
+33.297 [time: 1196.59 s | mem: 30062128 kb]
 => Running Seq with sga-ariya.fq ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]'       taskset -c 20       build/sga.seq data/wgsim-sga.bwt data/sga-ariya.fq n > out/sga-ariya.fq-sga_n.seq
 28.388 [time: 846.42 s | mem: 30063804 kb]
@@ -96,6 +96,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 28.334 [time: 735.38 s | mem: 30062224 kb]
 28.683 [time: 735.25 s | mem: 30062224 kb]
 28.549 [time: 735.69 s | mem: 30062132 kb]
+=> Running C++/g++ with NA12878-10x_5mil.fq ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/sga.cl  data/wgsim-sga.bwt data/NA12878-10x_5mil.fq    > out/NA12878-10x_5mil.fq-sga.cl
+30.379 [time: 1036.33 s | mem: 30062352 kb]
+30.612 [time: 1034.38 s | mem: 30062356 kb]
+30.402 [time: 1033.84 s | mem: 30062424 kb]
+30.742 [time: 1034.40 s | mem: 30062204 kb]
+30.695 [time: 1033.05 s | mem: 30062344 kb]
 => Running Seq with NA12878-10x_5mil.fq ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]'       taskset -c 20       build/sga.seq data/wgsim-sga.bwt data/NA12878-10x_5mil.fq n > out/NA12878-10x_5mil.fq-sga_n.seq
 28.376 [time: 753.81 s | mem: 30063912 kb]
