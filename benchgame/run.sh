@@ -24,27 +24,34 @@ run () {
 	echo "=> Compiling $S.seq..."
 	seq-compile $S.seq build
 	echo "=> Compiling $S.nuitka..."
-	nuitka --standalone --python-flag=noasserts,no_warnings --lto \
-		--output-dir="build/$S.nuitka" --remove-output $S.py
+	#nuitka --standalone --python-flag=noasserts,no_warnings --lto \
+	#	--output-dir="build/$S.nuitka" --remove-output $S.py
+	echo "=> Compiling $S.shed..."
+	/afs/csail.mit.edu/u/i/inumanag/.local/bin/shedskin -l -o ${S}2 
+	make
+	mv ${S}2 build/${S}.shed
 
 	echo "==> Running..."
 	echo "=> Running C++/g++ with $2 ..."
-	hf 5 "build/$S.cc $2 > out/$S.cc" 
+	#hf 5 "build/$S.cc $2 > out/$S.cc" 
 
 	echo "=> Running C++/clang++ with $2 ..."
-	hf 5 "build/$S.cl $2 > out/$S.cl" 
+	#hf 5 "build/$S.cl $2 > out/$S.cl" 
 
 	echo "=> Running Seq with $2 ..."
-	hf 5 "build/$S.seq $2 > out/$S.seq" 
+	#hf 5 "build/$S.seq $2 > out/$S.seq" 
 
 	echo "=> Running Julia with $2 ..."
-	hf 5 "julia --check-bounds=no -O3 $S.jl $2 > out/$S.jl" 
+	#hf 5 "julia --check-bounds=no -O3 $S.jl $2 > out/$S.jl" 
 
 	echo "=> Running Python with $2 ..."
-	hf 3 "python $S.py $2 > out/$S.py" 
+	#hf 3 "python $S.py $2 > out/$S.py" 
 
 	echo "=> Running Nuitka with $2 ..."
-	hf 3 "build/$S.nuitka/$S.dist/$S $2 > out/$S.nuitka" 
+	#hf 3 "build/$S.nuitka/$S.dist/$S $2 > out/$S.nuitka" 
+
+	echo "=> Running Shedskin with $2 ..."
+	hf 5 "build/$S.shed $2 > out/$S.shed" 
 }
 
 run "fasta" "25000000"

@@ -18,8 +18,8 @@ def random_generator(ia, ic, im):
         yield seed / imf
 
 def make_cumulative(table):
-    P = list[float]()
-    C = list[str]()
+    P = []
+    C = []
     prob = 0.
     for char, p in table:
         prob += p
@@ -39,11 +39,11 @@ def repeat_fasta(src, n):
 def random_fasta(table, n, rand):
     width = 60
     probs, chars = make_cumulative(table)
-    s = str.cati((chars[bisect.bisect(probs, next(rand))] for i in range(n)), n)
+    s = ''.join([chars[bisect.bisect(probs, next(rand))] for i in range(n)])
     for i in range(0, n, width):
         print s[i:i + width]
 
-n = int(sys.argv[1]) # 1000, 25000000
+n = int(sys.argv[1]) 
 
 rand = random_generator(3877, 29573, 139968)
 

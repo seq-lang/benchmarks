@@ -31,8 +31,10 @@ def repeat_fasta(src, n):
     width = 60
     r = len(src)
     s = src + src + src[:n % r]
-    for i in range(0, n, width):
-        print s[i:i + width]
+    for i in range(0, n // width):
+        j = i * width % r
+        print s[j:j + width]
+    if n % width: print s[- (n % width):]
 
 def random_fasta(table, n, rand):
     width = 60
@@ -40,16 +42,8 @@ def random_fasta(table, n, rand):
     s = ''.join(chars[bisect.bisect(probs, next(rand))] for i in range(n))
     for i in range(0, n, width):
         print s[i:i + width]
-    # for j in range(n // width):
-    #     sys.stdout.write(''.join(
-    #         chars[bisect.bisect(probs, next(rand))] for i in range(width)))
-    #     sys.stdout.write("\n")
-    # if n % width:
-    #     sys.stdout.write(''.join(
-    #         chars[bisect.bisect(probs, next(rand))] for i in range(n % width)))
-    #     sys.stdout.write("\n")
 
-n = int(sys.argv[1]) # 1000, 25000000
+n = int(sys.argv[1]) 
 
 rand = random_generator(3877, 29573, 139968)
 

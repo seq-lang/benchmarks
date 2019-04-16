@@ -42,6 +42,11 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 1861.32 s | mem: 9428 kb]
 [time: 1843.29 s | mem: 9388 kb]
 [time: 1957.07 s | mem: 9172 kb]
+=> Running Shedskin with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/rc.shed data/HG00123_shuf.txt > out/rc.shed
+[time: 536.26 s | mem: 6492 kb]
+[time: 534.34 s | mem: 6540 kb]
+[time: 533.16 s | mem: 6632 kb]
 
 === === === === === === === cpg === === === === === === ===
 => Running C++/g++ with data/HG00123_shuf.txt ...
@@ -72,6 +77,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 58.08 s | mem: 5200 kb]
 [time: 58.38 s | mem: 5196 kb]
 [time: 58.24 s | mem: 5208 kb]
+=> Running Seq.PAR with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/cpg.par.seq data/HG00123_shuf.txt > out/cpg.par.seq
+[time: 15.54 s | mem: 2622176 kb]
+[time: 15.58 s | mem: 2648816 kb]
+[time: 15.57 s | mem: 2640884 kb]
+[time: 15.62 s | mem: 2657104 kb]
+[time: 15.63 s | mem: 2596260 kb]
 => Running Julia with data/HG00123_shuf.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 cpg.jl data/HG00123_shuf.txt > out/cpg.jl
 [time: 948.18 s | mem: 189804 kb]
@@ -86,6 +98,11 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 1558.59 s | mem: 8204 kb]
 [time: 1619.56 s | mem: 8476 kb]
 [time: 1610.97 s | mem: 8208 kb]
+=> Running Shedskin with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/cpg.shed data/HG00123_shuf.txt > out/cpg.shed
+[time: 1347.32 s | mem: 5540 kb]
+[time: 1330.02 s | mem: 5620 kb]
+[time: 1333.40 s | mem: 5548 kb]
 
 === === === === === === === 16mer === === === === === === ===
 => Running C++/g++ with data/HG00123_shuf.txt ...
@@ -116,6 +133,13 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 87.09 s | mem: 5216 kb]
 [time: 86.78 s | mem: 5156 kb]
 [time: 86.87 s | mem: 5188 kb]
+=> Running Seq.PAR with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/16mer.par.seq data/HG00123_shuf.txt > out/16mer.par.seq
+[time: 23.52 s | mem: 2787160 kb]
+[time: 23.12 s | mem: 2835648 kb]
+[time: 24.02 s | mem: 2963900 kb]
+[time: 23.17 s | mem: 2772944 kb]
+[time: 23.15 s | mem: 2802292 kb]
 => Running Julia with data/HG00123_shuf.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 16mer.jl data/HG00123_shuf.txt > out/16mer.jl
 [time: 1032.22 s | mem: 191160 kb]
@@ -124,7 +148,14 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 => Running Python with data/HG00123_shuf.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python 16mer.py data/HG00123_shuf.txt > out/16mer.py
 [time: 15346.60 s | mem: 7464 kb]
+[time: 15677.92 s | mem: 7332 kb]
+[time: 15296.06 s | mem: 7464 kb]
 => Running Nuitka with data/HG00123_shuf.txt ...
 [time: 5952.58 s | mem: 8220 kb]
 [time: 6281.27 s | mem: 8300 kb]
 [time: 5892.99 s | mem: 8584 kb]
+=> Running Shedskin with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/16mer.shed data/HG00123_shuf.txt > out/16mer.shed
+[time: 2116.71 s | mem: 21892 kb]
+[time: 2175.87 s | mem: 5632 kb]
+[time: 2127.12 s | mem: 5452 kb]

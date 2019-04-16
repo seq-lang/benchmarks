@@ -1,0 +1,36 @@
+# 786
+
+import sys
+
+def is_cpg(s, c, g) -> tuple[int, int]:
+   match s:
+      case s'C...': return is_cpg(s[1:], c + 1, g)
+      case s'G...': return is_cpg(s[1:], c, g + 1)
+      default: return c, g
+
+def cpgs(s):
+   i = 0
+   while i < len(s):
+      c, g = is_cpg(s[i:], 0, 0)
+      if c and g: 
+         yield c + g
+      i += c + g + 1
+
+def collect(c, cnt, m, M):
+   cnt.val += 1
+   m.val = min(m.val, c)
+   M.val = max(M.val, c)
+
+cnt, m, M = 0, 99999, 0
+@atomic
+def thread(block):
+   tcnt, tm, tM = Box(0), Box(99999), Box(0)
+   iter(block) |> cpgs |> collect(tcnt, tm, tM)
+   
+   global cnt, m, M
+   cnt += tcnt.val
+   m = min(m, tm.val)
+   M = max(M, tM.val)
+
+blocks(seqs(sys.argv[1]), 100000) ||> thread
+print cnt, m, M

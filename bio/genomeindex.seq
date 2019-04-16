@@ -11,6 +11,26 @@
 
 from hashtable import SNAPHashTable
 
+class PlainIndex:
+    p: ptr[byte]
+
+    def __init__(self: PlainIndex, dir: str):
+        cdef snap_index_from_dir(ptr[byte]) -> ptr[byte]
+        self.p = snap_index_from_dir(dir.c_str())
+        
+    def __getitem__(self: PlainIndex, seed: seq):
+        # extern "C" void snap_index_lookup(void *idx, char *bases, int64_t *nHits, const unsigned **hits, int64_t *nRCHits, const unsigned **rcHits);
+        cdef snap_index_lookup(ptr[byte], ptr[byte], 
+            ptr[int], ptr[ptr[u32]], ptr[int], ptr[ptr[u32]])        
+        n_hits = 0
+        n_rc_hits = 0
+        hits = ptr[u32]()
+        rc_hits = ptr[u32]()
+        snap_index_lookup(self.p, seed.ptr,
+            __ptr__(n_hits), __ptr__(hits), 
+            __ptr__(n_rc_hits), __ptr__(rc_hits))
+        return (array[u32](hits, n_hits), array[u32](rc_hits, n_rc_hits))
+
 class GenomeIndex[K]:
     hash_tables: array[SNAPHashTable[k16,u32]]
     overflow_table: array[u32]

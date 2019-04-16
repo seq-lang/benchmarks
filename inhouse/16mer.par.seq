@@ -2,69 +2,37 @@
 
 import sys
 
-cdef T as omp_get_thread_num() -> int
-cdef NT as omp_get_num_threads() -> int
+def process(k, t):
+   t.val += len(k)
+   return k
 
-# t1 = [0] * NT()
-# #@atomic
-# def process(k):
-#    global t1
-#    t1[T()] += len(k)
-#    return k
+def count(k, t):
+   t.val += 1
+   return k
 
-# t2 = [0] * NT()
-# #@atomic
-# def count(k):
-#    global t2
-#    t2[T()] += 1
-#    return k
+def sym(k, t):
+   def is_sym(s) -> bool: 
+      match s:
+         case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N': 
+            return is_sym(s[1:-1])
+         case s'': return True
+         default:  return False
+   t.val += 1 if is_sym(k) else 0
 
-# t3 = 0 # [0] * NT()
-# #@atomic
-# def sym(k):
-#    global t3
-#    def is_sym(s) -> bool: 
-#       match s:
-#          case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N': 
-#             return is_sym(s[1:-1])
-#          case s'': return True
-#          default:  return False
-#    t3 += 1 if is_sym(k) else 0
+I, J, K = 0, 0, 0
+@atomic
+def thread(block):
+   i, j, k = Box(0), Box(0), Box(0)
+   (iter(block)
+    |> split(16, 1)
+    |> process(i)
+    |> count(j)
+    |> sym(k))
 
-# print NT()
-# (seqs(sys.argv[1])
-#  ||> split(16, 1)
-#  #|> process
-#  #|> count
-#  |> sym)
-# print t3 #sum(t1), sum(t2), sum(t3)
+   global I, J, K
+   I += i.val
+   J += j.val
+   K += k.val
 
-
-
-import sys
-
-t3 = 0
-
-#@atomic
-# def sym(k):
-#    global t3
-#    def is_sym(s) -> bool:
-#       match s:
-#          case s'A...T' or s'T...A' or s'C...G' or s'G...C' or s'N...N':
-#             return is_sym(s[1:-1])
-#          case s'': return True
-#          default:  return False
-#    if is_sym(k):
-#       t3 += 1
-
-# (seqs(sys.argv[1]) |> split(16, 1) |> sym)
-# print t3
-
-
-def calc(n):
-   v = 0
-   for i in range(n, n + 10000000000):
-      v ^= i*i
-   print v
-
-range(4) |> iter |> calc
+blocks(seqs(sys.argv[1]), 100000) ||> thread
+print I, J, K

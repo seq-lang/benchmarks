@@ -15,11 +15,11 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 5.64 s | mem: 4196 kb]
 => Running Seq with 25000000 ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.seq 25000000 > out/fasta.seq
-[time: 10.82 s | mem: 210936 kb]
-[time: 10.67 s | mem: 203660 kb]
-[time: 10.67 s | mem: 201672 kb]
-[time: 10.62 s | mem: 203632 kb]
-[time: 10.67 s | mem: 203684 kb]
+[time: 10.91 s | mem: 202236 kb]
+[time: 10.68 s | mem: 202076 kb]
+[time: 10.59 s | mem: 202968 kb]
+[time: 10.66 s | mem: 204408 kb]
+[time: 10.69 s | mem: 202500 kb]
 => Running Julia with 25000000 ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  julia --check-bounds=no -O3 fasta.jl 25000000 > out/fasta.jl
 [time: 7.09 s | mem: 173264 kb]
@@ -29,15 +29,22 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 7.06 s | mem: 176264 kb] 
 => Running Python with 25000000 ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  python fasta.py 25000000 > out/fasta.py
-[time: 110.80 s | mem: 4969116 kb]
-[time: 111.25 s | mem: 4968284 kb]
-[time: 110.88 s | mem: 4969440 kb] 
+[time: 111.20 s | mem: 4968756 kb]
+[time: 111.52 s | mem: 4969584 kb]
+[time: 111.14 s | mem: 4968436 kb]
 => Running Nuitka with 25000000 ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.nuitka/fasta.dist/fasta 25000000 > out/fasta.nuitka
-[time: 90.98 s | mem: 4969812 kb]
-[time: 93.98 s | mem: 4970676 kb]
-[time: 92.84 s | mem: 4970924 kb]
- 
+[time: 101.15 s | mem: 4970236 kb]
+[time: 95.32 s | mem: 4970568 kb]
+[time: 101.80 s | mem: 4970916 kb]
+=> Running Shedskin with 25000000 ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/fasta.shed 25000000 > out/fasta.shed
+[time: 15.67 s | mem: 5005740 kb]
+[time: 15.62 s | mem: 5005456 kb]
+[time: 15.59 s | mem: 5006340 kb]
+[time: 15.49 s | mem: 5006532 kb]
+[time: 15.63 s | mem: 5035920 kb]
+
 === === === === === === === revcomp === === === === === === ===
 => Running C++/g++ with < data/fasta25mil.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.cc < data/fasta25mil.txt > out/revcomp.cc
@@ -77,7 +84,14 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 54.91 s | mem: 311252 kb]
 [time: 54.18 s | mem: 311292 kb]
 [time: 53.69 s | mem: 311304 kb]
- 
+=> Running Shedskin with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/revcomp.shed < data/fasta25mil.txt > out/revcomp.shed
+[time: 16.02 s | mem: 429860 kb]
+[time: 16.14 s | mem: 450244 kb]
+[time: 16.03 s | mem: 429980 kb]
+[time: 15.96 s | mem: 431056 kb]
+[time: 15.97 s | mem: 430580 kb]
+
 === === === === === === === knucleotide === === === === === === ===
 => Running C++/g++ with < data/fasta25mil.txt ...
 Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.cc < data/fasta25mil.txt > out/knucleotide.cc
@@ -117,4 +131,11 @@ Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  
 [time: 171.30 s | mem: 4365184 kb]
 [time: 177.65 s | mem: 4365080 kb]
 [time: 173.23 s | mem: 4365508 kb]
- 
+=> Running Shedskin with < data/fasta25mil.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20 		  build/knucleotide.shed < data/fasta25mil.txt > out/knucleotide.shed
+[time: 203.42 s | mem: 839428 kb]
+[time: 215.57 s | mem: 794252 kb]
+[time: 211.91 s | mem: 782080 kb]
+[time: 216.01 s | mem: 794276 kb]
+[time: 211.88 s | mem: 782048 kb]
+
