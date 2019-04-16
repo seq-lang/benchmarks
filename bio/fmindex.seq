@@ -1,0 +1,42 @@
+# Wrapper around SGA's FM-index implementation.
+
+type Intv(lower: int, upper: int):
+    def __init__(self: Intv) -> Intv:
+        return (0, 0)
+
+    def __init__(self: Intv, lower: int, upper: int) -> Intv:
+        return (lower, upper)
+
+    # isValid()
+    def __bool__(self: Intv):
+        return self.lower <= self.upper
+
+    # size()
+    def __len__(self: Intv):
+        return self.upper - self.lower - 1
+
+type FMIndex(p: ptr[byte]):
+    def __init__(self: FMIndex, path: str) -> FMIndex:
+        # extern "C" void *sga_idx_new(const char *path)
+        cdef sga_idx_new(path: ptr[byte]) -> ptr[byte]
+        return (sga_idx_new(path.ptr),)
+
+    def __getitem__(self: FMIndex, key: tuple[Intv, seq]):
+        # extern "C" void sga_update_interval(void *bwt, BWTInterval *interval, char b)
+        cdef sga_update_interval(bwt: ptr[byte], interval: ptr[Intv], b: byte)
+        v, b = key
+        sga_update_interval(self.p, __ptr__(v), b.ptr[0])
+        return v
+
+    def __getitem__(self: FMIndex, b: seq):
+        # extern "C" void sga_init_interval(void *bwt, BWTInterval *interval, char b)
+        cdef sga_init_interval(bwt: ptr[byte], interval: ptr[Intv], b: byte)
+        v = Intv()
+        sga_init_interval(self.p, __ptr__(v), b.ptr[0])
+        return v
+
+    def __prefetch__(self: FMIndex, key: tuple[Intv, seq]):
+        # extern "C" void sga_update_interval_prefetch(void *bwt, int64_t lower, int64_t upper, char b)
+        cdef sga_update_interval_prefetch(bwt: ptr[byte], lower: int, upper: int, b: byte)
+        v, b = key
+        sga_update_interval_prefetch(self.p, v.lower, v.upper, b.ptr[0])

@@ -1,0 +1,40 @@
+import sys, time
+import fmindex 
+
+def filter_n(kmer):
+   if not kmer.N(): yield kmer
+
+def lookup(kmer, index):
+   iv = index[kmer[-1]]
+   for j in range(len(kmer) - 2, -1, -1):
+      prefetch index[iv, kmer[j]]
+      iv = index[iv, kmer[j]]
+      if not iv: return False
+   return True
+
+def count(found, good, bad):
+   if found: 
+      good.val += 1
+   else: 
+      bad.val += 1
+
+good, bad = 0, 0
+@atomic
+def thread(block, index):
+   g, b = Box(0), Box(0)
+   (iter(block)
+    |> split(20, 1)
+    |> filter_n
+    |> lookup(index)
+    |> count(g, b))
+   global good, bad
+   good += g.val
+   bad  += b.val
+
+t = time.time()
+index = fmindex.FMIndex(sys.argv[1])
+sys.stderr.write('index loading: ' +  str((time.time()-t)/1000.0) + "\n")
+
+blocks(fastq(sys.argv[2]), 100000) ||> thread(index)
+print good, bad
+

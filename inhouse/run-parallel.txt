@@ -1,0 +1,59 @@
+=== === === === === === === cpg === === === === === === ===
+=> Running Seq.PAR/1 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/cpg.par.seq data/HG00123_shuf.txt > out/cpg.par.seq
+[time: 58.47 s | mem: 68040 kb]
+[time: 57.88 s | mem: 62588 kb]
+[time: 58.24 s | mem: 49112 kb]
+[time: 58.13 s | mem: 49148 kb]
+[time: 57.82 s | mem: 66012 kb]
+=> Running Seq.PAR/2 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/cpg.par.seq data/HG00123_shuf.txt > out/cpg.par.seq
+[time: 29.47 s | mem: 2689276 kb]
+[time: 29.97 s | mem: 2653408 kb]
+[time: 29.72 s | mem: 2672508 kb]
+[time: 29.63 s | mem: 2596104 kb]
+[time: 29.43 s | mem: 2703536 kb]
+=> Running Seq.PAR/3 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/cpg.par.seq data/HG00123_shuf.txt > out/cpg.par.seq
+[time: 19.84 s | mem: 2685468 kb]
+[time: 19.95 s | mem: 2723320 kb]
+[time: 19.89 s | mem: 2679340 kb]
+[time: 20.08 s | mem: 2699664 kb]
+[time: 19.90 s | mem: 2637856 kb] 
+=> Running Seq.PAR/4 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/cpg.par.seq data/HG00123_shuf.txt > out/cpg.par.seq
+[time: 15.45 s | mem: 2632232 kb]
+[time: 15.23 s | mem: 2624104 kb]
+[time: 15.27 s | mem: 2645484 kb]
+[time: 15.31 s | mem: 2582920 kb]
+[time: 15.28 s | mem: 2647900 kb]
+ 
+=== === === === === === === 16mer === === === === === === ===
+=> Running Seq.PAR/1 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/16mer.par.seq data/HG00123_shuf.txt > out/16mer.par.seq
+[time: 86.43 s | mem: 66032 kb]
+[time: 86.52 s | mem: 48104 kb]
+[time: 86.92 s | mem: 63344 kb]
+[time: 86.70 s | mem: 49156 kb]
+[time: 86.74 s | mem: 64436 kb] 
+=> Running Seq.PAR/2 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/16mer.par.seq data/HG00123_shuf.txt > out/16mer.par.seq
+[time: 43.78 s | mem: 2708364 kb]
+[time: 43.85 s | mem: 2642804 kb]
+[time: 43.15 s | mem: 2793384 kb]
+[time: 43.83 s | mem: 2735304 kb]
+[time: 43.35 s | mem: 2763700 kb]
+=> Running Seq.PAR/3 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/16mer.par.seq data/HG00123_shuf.txt > out/16mer.par.seq
+[time: 29.92 s | mem: 2788180 kb]
+[time: 29.81 s | mem: 2854292 kb]
+[time: 29.66 s | mem: 2792132 kb]
+[time: 29.88 s | mem: 2884612 kb]
+[time: 30.26 s | mem: 2761644 kb]
+=> Running Seq.PAR/4 with data/HG00123_shuf.txt ...
+Benchmark #1: /usr/bin/time -f'[time: %e s | mem: %M kb]' 		  taskset -c 20-23 		  /scratch2/ibrahim/seq/build_tapir/seq-par-run build/16mer.par.seq data/HG00123_shuf.txt > out/16mer.par.seq
+[time: 22.97 s | mem: 2844252 kb]
+[time: 22.60 s | mem: 2835732 kb]
+[time: 22.68 s | mem: 2849752 kb]
+[time: 23.22 s | mem: 2864592 kb]
+[time: 22.77 s | mem: 2850400 kb]
