@@ -28,13 +28,12 @@ CPPFLAGS = -std=c++11 -march=native -O3
 LDFLAGS  = -pthread   -march=native -O3 
 
 all: 
+	mkdir -p build
 	$(CXX) $(CPPFLAGS) -c sga.cc -o build/sga.cc.o
 	$(CXX) $(LDFLAGS) build/sga.cc.o $(LIB) $(LINK) -o build/sga.cc
 	$(CXX) $(CPPFLAGS) -c sga/libsga.cc -o build/libsga.cc.o
 	$(CXX) $(LDFLAGS) -shared build/libsga.cc.o $(LIB) $(LINK) \
 		-o build/libsga.so
-
-clang:
 	clang++ $(CPPFLAGS) -c sga.cc -o build/sga.cl.o
 	clang++ $(LDFLAGS) build/sga.cl.o $(LIB) $(LINK) -o build/sga.cl
 

@@ -15,18 +15,6 @@ def lookup(kmer: seq, index: FMIndex):
             return iv
     return iv
 
-def lookup_p(kmer: seq, index: FMIndex):
-    j = len(kmer) - 1
-    iv = index[kmer[j]]
-    j -= 1
-    while j >= 0:
-        prefetch index[(iv, kmer[j])]
-        iv = index[(iv, kmer[j])]
-        j -= 1
-        if not iv:
-            return iv
-    return iv
-
 good, bad = 0, 0
 def count(iv: Intv):
     global good, bad
@@ -39,14 +27,7 @@ def main(args):
     t=time.time()
     index = FMIndex(args[0])
     sys.stderr.write('index loading:' +  str((time.time()-t)/1000.0) + "\n")
-    match args[2]:
-        case 'n': 
-            fastq(args[1]) |> split(20, 1) |> filter |> lookup(index) |> count
-        case 'y': 
-            fastq(args[1]) |> split(20, 1) |> filter |> lookup_p(index) |> count
-        default:
-            print 'bad mode'
-            sys.exit(1)
+    fastq(args[1]) |> split(20, 1) |> filter |> lookup(index) |> count
     print good, bad
 
 if len(sys.argv) > 0:

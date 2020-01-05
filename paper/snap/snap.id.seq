@@ -8,17 +8,6 @@ bad = 0
 def process(kmer: K, index: GenomeIndex[K]):
     global good, bad
     
-    hits = index[kmer]
-    hits_rc = index[~kmer]
-
-    if len(hits) > 0 or len(hits_rc) > 0:
-        good += 1
-    else:
-        bad += 1
-
-def process_p(kmer: K, index: GenomeIndex[K]):
-    global good, bad
-    
     prefetch index[kmer], index[~kmer]
     hits = index[kmer]
     hits_rc = index[~kmer]
@@ -37,14 +26,7 @@ def main(args):
     sys.stderr.write('index loading: ' +  str((time.time()-t)/1000.0) + "\n")
 
     step = 10
-    match args[2]:
-        case 'y':
-            fastq(args[1]) |> kmers[K](step) |> process_p(index)
-        case 'n':
-            fastq(args[1]) |> kmers[K](step) |> process(index)
-        default:
-            print 'wrong mode'
-            sys.exit(1)
+    fastq(args[1]) |> kmers[K](step) |> process(index)
     print good, bad
 
 if len(sys.argv) > 0:
