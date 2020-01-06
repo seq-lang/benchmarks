@@ -1,0 +1,11 @@
+import sys
+
+total = 0
+def rc(s):
+   s = ~s
+   print s
+   global total
+   total += len(s)
+
+seqs(sys.argv[1]) |> rc
+print total
